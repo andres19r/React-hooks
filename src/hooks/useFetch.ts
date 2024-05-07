@@ -7,6 +7,8 @@ export interface fetchState {
   error: any;
 }
 
+const localCache = {};
+
 export const useFetch = (url: string) => {
   const [state, setState] = useState<fetchState>({
     data: null,
@@ -29,6 +31,16 @@ export const useFetch = (url: string) => {
   };
 
   const getFetch = async () => {
+    if (localCache[url]) {
+      setState({
+        data: localCache[url],
+        isLoading: false,
+        hasError: false,
+        error: null,
+      });
+      return;
+    }
+
     setLoadingState();
     const resp = await fetch(url);
 
@@ -55,6 +67,9 @@ export const useFetch = (url: string) => {
       hasError: false,
       error: null,
     });
+
+    // Cache handling
+    localCache[url] = data;
   };
 
   return {
