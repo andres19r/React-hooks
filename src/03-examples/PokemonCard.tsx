@@ -11,7 +11,7 @@ export const PokemonCard = ({ id, name, sprites = [] }: IPokemon) => {
   const [boxSize, setBoxSize] = useState({ width: 0, height: 0 });
 
   useLayoutEffect(() => {
-    const { height, width } = divRef.current.getBoundingClientRect()
+    const { height, width } = divRef.current.getBoundingClientRect();
     setBoxSize({ height, width });
   }, [id]);
 
